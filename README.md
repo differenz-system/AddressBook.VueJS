@@ -1,4 +1,4 @@
-# differenz-todolist
+# differenz-addressbook
 
 ## Project setup
 ```
