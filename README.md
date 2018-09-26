@@ -1,31 +1,33 @@
-# differenz-addressbook
+# AddressBook.VueJS
 
-## Project setup
-```
-npm install
-```
+## Overview
+This repository contains **Address Book** application for VueJS that shows design & coding practices followed by **[Differenz System](http://www.differenzsystem.com/)**.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+The app does the following:
+1. **Login:** User can login via facebook or email/password. 
+2. **Home:** It will list all the save contacts, having the option to add a new contact on the top right.
+3. **Create new contact:** User can add a new contact to his address book by filling details here.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Pre-requisites
+- [Node js](https://nodejs.org/en/)
+- [Visual Studio code](https://code.visualstudio.com/)
+- [Vue-cli](https://cli.vuejs.org/guide/installation.html)
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Getting Started
+1. Clone this sample repository
+2. Open Terminal, go to location of the repo and use command "npm install"
+4. Enter command npm run serve
 
-### Run your unit tests
-```
-npm run test:unit
-```
+## Key Tools & Technologies
+- **API/Service calls:** axios API
+- **IDE:** VSCode
+- **Framework:** Vue JS
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
+
+## Screenshots
+
+
+## Support
+If you've found an error in this sample, please [report an issue](https://github.com/differenz-system/AddressBook.Android/issues/new). You can also send your feedback and suggestions at info@differenzsystem.com
+
+Happy coding!
