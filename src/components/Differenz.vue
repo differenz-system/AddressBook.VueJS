@@ -1,8 +1,8 @@
 <template>
-  <div class="hello">
+  <div class="Differenz">
     <h1>{{ msg }}</h1>
-    <router-link to="/login">Log in</router-link>
-    <ul>
+      <div class="footer">
+    <ul> 
       <li><a 
         href="mailTo:team@differenzsystem.com" 
         target="_blank" 
@@ -12,33 +12,47 @@
         target="_blank" 
         rel="noopener">Visit our website</a></li>
     </ul>
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'Differenz',
-  props: {
-    msg: {
-      type:String,
-      default:''
-      }
-  }
+    name:"Differenz",
+    props:{
+        msg:{
+            type:String,
+            default:"",
+                
+        }
+    }
+    
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus">
-h3
-  margin 40px 0 0
 
-ul
-  list-style-type none
-  padding 0
+<style scoped>
+li {
+    display: inline-block;
+    padding: 0px 10px;
+}
+.router-link-exact-active{
+      color: #42b983 !important;
+}
 
-li
-  display inline-block
-  margin 0 10px
-a
-  color #42b983
+a{
+  color:#42b983;
+}
+
+.footer{
+ 
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  font-weight: bolder;
+  font-size:20px;
+  
+  width:100%;
+}  
 </style>

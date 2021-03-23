@@ -1,130 +1,141 @@
-import api from './api.js'
-import Snackbar from '@/components/Snackbar.vue'
+import api from '@/api'
+import store from '@/store/index.js'
+
 export default {
-  /**
-   * Register
-   */
-  register: ({ commit, state }) => new Promise((resolve, reject) => {
-    let obj = { email: state.registerPage.email, password: state.registerPage.password }
-    api.register({ obj }).then(res => {
-      //if response comes and response.res is 0 and there IS user_id
-      if (res && res.res && res.res == '0' && res.user_id) {
-        localStorage.setItem('user_id', btoa(res.user_id))
-        commit('SAVE_USERID', res.user_id)
-        resolve(res.user_id)
-      } else reject(res)
-    }).catch(err => {
-      reject(err)
-    }).finally(() => commit('CLEAR_REGISTER_DETAILS'))
+
+
+
+  register: (context, { payload }) => new Promise((resolve, reject) => {
+    return api.register(payload)
+      .then((response) => {
+        if (response && response.res && response.res == "0" && response.data.user_id) {
+          let data = {
+            email: response.data.email,
+            password: response.data.password
+          }
+          localStorage.setItem('user_id', btoa(response.data.user_id))
+          context.commit('SAVED_USERID', response.data.user_id)
+          context.commit('SAVE_LOGIN_DETAILS', data)
+          resolve(response.data.user_id)
+        } else reject(response)
+      }).catch(err => {
+        reject(err)
+      })
   }),
-  /**
-   * Login
-   */
-  logIn: ({ commit, state }) => new Promise((resolve, reject) => {
-    let obj = { email: state.email, password: state.password }
-    api.logIn({ obj }).then(res => {
-      //if response comes and response.res is 0 and there IS user_id
-      if (res && res.res && res.res == '0' && res.user_id) {
-        localStorage.setItem('user_id', btoa(res.user_id))
-        commit('SAVE_USERID', res.user_id)
-        resolve(res.user_id)
-      } else reject(res)
-    }).catch(err => {
-      reject(err)
-    }).finally(() => commit('CLEAR_LOGIN_DETAILS'))
+
+  login: (context, { payload }) => new Promise((resolve, reject) => {
+    return api.login(payload)
+
+      .then((response) => {
+
+        if (response && response.res && response.res == "0" && response.data.user_id) {
+          localStorage.setItem('user_id', btoa(response.data.user_id))
+          context.commit('SAVED_USERID', response.data.user_id)
+          let data = {
+            email: response.data.email,
+            password: response.data.password
+          }
+          context.commit('SAVE_LOGIN_DETAILS', data)
+          resolve(response.data.user_id)
+        } else reject(response)
+      }).catch(err => {
+        context.commit('CLEAR_LOGIN_DETAILS')
+        reject(err)
+      })
   }),
 
   /**
-   * get addresslist
-   */
-  getAddressList: ({ commit, state }) => new Promise((resolve, reject) => {
-    api.getAddressList({ user_id: state.user_id }).then(res => {
-      if (res && res.res && res.res == '0' && res.data && Array.isArray(res.data)) {
-        commit('SAVE_ADDRESSLIST', { data: res.data })
-        resolve()
+ * get addresslist
+ */
+  getAddressList: (context, { user_id }) => new Promise((resolve, reject) => {
+    return api.getAddressList(user_id)
+      .then(response => {
+        if (response && response.res && response.res == '0' && response.data && Array.isArray(response.data)) {
+          context.commit('SAVE_ADDRESSLIST', { data: response.data })
+          resolve(response)
+        }
+        else {
+          reject(response)
+        }
+      }).catch(err => {
+        reject(err)
+      })
+  }),
+
+
+  updateContact: (context, { address_id, user_id, payload }) => new Promise((resolve, reject) => {
+
+    return api.updateContact({ address_id, user_id, payload }).then(res => {
+
+      if (res && res.res && res.res == '0' && res.data) {
+        context.commit('UPDATE_CONTACT_LOCALLY', { data: res.data })
+
+        resolve(res)
+      } else {
+
+        reject(res)
       }
-      reject()
     }).catch(err => {
+
+
       reject(err)
     })
   }),
+
   /**
-   * Delete contact
-   */
-  deleteContact: ({ commit }, { contact }) => new Promise((resolve, reject) => {
-    api.deleteContact({ user_id: contact.user_id, address_id: contact.address_id }).then(res => {
+  * Delete contact
+  */
+  deleteContact: (context, { user_id, address_id }) => new Promise((resolve, reject) => {
+    api.deleteContact(user_id, address_id).then(res => {
+      console.log(res);
       if (res && res.res && res.res == '0') {
-        commit('REMOVE_CONTACT', { address_id: contact.address_id })
-        Snackbar.methods.openSnackbar('Deleted Successfully')
-        resolve()
-      } else reject()
+        context.commit('REMOVE_CONTACT', address_id)
+
+        resolve(res)
+      } else {
+        reject(res)
+      }
     }).catch(err => {
-      reject()
+      reject(err)
       console.log(err)
     })
   }),
-  /**
-   * add contact
-   */
-  addContact: ({ commit, state }) => new Promise((resolve, reject) => {
-    if (state.addPage.email == '' || state.addPage.contact_number == '' || state.addPage.name == '') {
 
-      Snackbar.methods.openSnackbar('Enter all details')
-    } else {
-      api.addContact({ obj: state.addPage, user_id: state.user_id }).then(res => {
-        if (res && res.res && res.res == '0' && res.data) {
-          commit('ADD_CONTACT_LOCALLY', { data: res.data })
-          commit('CLEAR_ADDPAGE_DATA')
-          Snackbar.methods.openSnackbar('User added successfully')
-          resolve()
-        } else {
-          Snackbar.methods.openSnackbar('Something went wrong')
-          reject()
-        }
-      }).catch(err => {
-        Snackbar.methods.openSnackbar('Something went wrong')
-        console.log(err)
-        reject()
-      })
-    }
-  }),
-  /**
-   * retrive data of contact when user clicks edit of any contact
-   */
-  updateContact: ({ commit, state }, { address_id }) => new Promise((resolve, reject) => {
-    if (state.addPage.email == '' || state.addPage.contact_number == '' || state.addPage.name == '') {
-      Snackbar.methods.openSnackbar('Enter all details')
-    } else {
-      api.updateContact({ address_id, user_id: state.user_id, obj: state.addPage }).then(res => {
-        if (res && res.res && res.res == '0' && res.data) {
-          commit('UPDATE_CONTACT_LOCALLY', { data: res.data })
-          Snackbar.methods.openSnackbar('Updated Successfully')
-          resolve()
-        } else reject()
-      }).catch(err => {
-        reject()
-        console.log(err)
-      })
-    }
+
+  addContact: (context, { payload }) => new Promise((resolve, reject) => {
+
+    return api.addContact(payload).then(res => {
+      if (res && res.res && res.res == '0' && res.data) {
+        context.commit('ADD_CONTACT_LOCALLY', { data: res.data })
+        context.commit('CLEAR_ADDPAGE_DATA')
+
+        resolve(res)
+      } else {
+
+        reject(res)
+      }
+    }).catch(err => {
+      console.log(err)
+      reject(err)
+    })
   }),
 
-  retriveDataForEditPage: ({ commit, state }, { address_id }) => {
-    state.addressBook.some(element => {
+  clearLoginDetails(context) {
+    context.commit('CLEAR_LOGIN_DETAILS');
+  },
+
+  setUserId: (context, user_id) => context.commit('SET_USERID', user_id),
+
+  retriveDataForEditPage: (context, address_id) => {
+    store.state.addressBook.map(element => {
       if (element.address_id == address_id) {
         let data = element
-        commit('SET_DATA_TO_EDIT', { data })
+        context.commit('SET_DATA_TO_EDIT', { data })
       }
       return element.address_id == address_id
     });
   },
-  /**
-   * clearing data of addpage
-   * used when contact is added successfully or user comes on add page
-   */
-  clearAddPageData: ({ commit }) => commit('CLEAR_ADDPAGE_DATA'),
-  /**
-   * Update contact information
-   */
-  setUserId: ({ commit }, { user_id }) => commit('SET_USERID', { user_id }),
-  retriveFromLocalStorage: ({ commit }) => commit('RETRIVE_CONTACTS')
+
+  clearAddPageData: (context) => context.commit('CLEAR_ADDPAGE_DATA'),
+
 }
