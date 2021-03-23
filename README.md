@@ -40,11 +40,12 @@ One can find structure of code by reading following lines
 
 
 ## Screenshots
-<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen Shot 2021-03-23 at 12.53.59 PM" width="280" border="5">
-<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen Shot 2021-03-23 at 12.54.13 PM" width="280"> 
-<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen Shot 2021-03-23 at 12.54.34 PM" width="280">
-<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen Shot 2021-03-23 at 12.54.47 PM" width="280"> 
-<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen Shot 2021-03-23 at 12.55.52 PM" width="280">
+
+<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen%20Shot%202021-03-23%20at%205.56.35%20PM.png" width="280" border="5">
+<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen%20Shot%202021-03-23%20at%2012.54.13%20PM.png" width="280"> 
+<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen%20Shot%202021-03-23%20at%2012.54.47%20PM.png" width="280"> 
+<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen%20Shot%202021-03-23%20at%2012.55.39%20PM.png" width="280">
+<img src="https://github.com/differenz-system/AddressBook.VueJS/blob/master/Screenshots/Screen%20Shot%202021-03-23%20at%2012.55.52%20PM.png" width="280">
 
 ## Support
 If you've found an error in this sample, please [report an issue](https://github.com/differenz-system/AddressBook.Android/issues/new). You can also send your feedback and suggestions at info@differenzsystem.com
